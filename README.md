@@ -1,3 +1,5 @@
-﻿# ipt10-structuralpatterns-1
+﻿# IPT Structural Design Patterns
 ## Members
-Laurence Pangilinan, Nathaniel Rae Marquez, James Andrei Sarno
+- Laurence Pangilinan,
+- Nathaniel Rae Marquez,
+- James Andrei Sarno
