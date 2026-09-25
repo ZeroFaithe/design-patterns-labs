@@ -1,0 +1,64 @@
+@startuml
+
+' Implementor A: Data Source
+interface DataSource {
+    +fetch(): array
+}
+
+class ApiDataSource {
+    +fetch(): array
+}
+
+class FileDataSource {
+    +fetch(): array
+}
+
+' Implementor B: Compressor
+interface Compressor {
+    +compress(string $content): string
+    +isCompressed(): bool
+}
+
+class GzipCompressor {
+    +compress(string $content): string
+    +isCompressed(): bool
+}
+
+class NoneCompressor {
+    +compress(string $content): string
+    +isCompressed(): bool
+}
+
+' Abstraction
+class TimesFormatter {
+    #source: DataSource
+    #compressor: Compressor
+    +__construct(DataSource $source, Compressor $compressor)
+    +setCompressor(Compressor $compressor): void
+    #toText(array $records): string
+    +generate(string $title): string
+}
+
+' Refined Abstractions
+class AttendanceTimesFormatter {
+    #toText(array $records): string
+}
+
+class TimesheetJsonFormatter {
+    #toText(array $records): string
+}
+
+' Relationships
+DataSource <|.. ApiDataSource
+DataSource <|.. FileDataSource
+
+Compressor <|.. GzipCompressor
+Compressor <|.. NoneCompressor
+
+TimesFormatter <|-- AttendanceTimesFormatter
+TimesFormatter <|-- TimesheetJsonFormatter
+
+TimesFormatter o-- DataSource
+TimesFormatter o-- Compressor
+
+@enduml
