@@ -1,0 +1,11 @@
+# Dependencies
+vendor/
+
+# Logs
+*.log
+
+# LaTeX auxiliary files
+*.aux
+
+# Local data
+data.json
