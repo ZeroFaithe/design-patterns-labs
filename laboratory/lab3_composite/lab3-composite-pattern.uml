@@ -1,0 +1,69 @@
+@startuml
+
+' Forum Component (Component)
+interface ForumComponent {
+    +display(int $depth = 0): void
+}
+
+' Leaf
+class Post {
+    -author: string
+    -message: string
+    +__construct(string $author, string $message)
+    +display(int $depth = 0): void
+}
+
+' Composite
+class Thread {
+    -title: string
+    -children: ForumComponent[]
+    +__construct(string $title)
+    +add(ForumComponent $c): void
+    +display(int $depth = 0): void
+    +fromApi(int $postId): Thread
+}
+
+' RAG Variant
+interface RagComponent {
+    +getText(): string
+    +embed(): array
+}
+
+class Chunk {
+    -text: string
+    +__construct(string $text)
+    +getText(): string
+    +embed(): array
+}
+
+class Section {
+    -title: string
+    -children: RagComponent[]
+    +__construct(string $title)
+    +add(RagComponent $c): void
+    +getText(): string
+    +embed(): array
+}
+
+class Document {
+    -title: string
+    -children: RagComponent[]
+    +__construct(string $title)
+    +add(RagComponent $c): void
+    +getText(): string
+    +embed(): array
+}
+
+' Relationships
+ForumComponent <|.. Post
+ForumComponent <|.. Thread
+Thread o-- "0..*" ForumComponent : children
+
+RagComponent <|.. Chunk
+RagComponent <|.. Section
+RagComponent <|.. Document
+
+Section o-- "0..*" RagComponent : children
+Document o-- "0..*" RagComponent : children
+
+@enduml
